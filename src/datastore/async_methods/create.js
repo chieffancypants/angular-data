@@ -151,7 +151,7 @@ function create(resourceName, attrs, options) {
             return DS.createInstance(resourceName, attrs, options);
           }
         })
-        .catch(function (err) {
+        ['catch'](function (err) {
           if (options.eagerInject && options.cacheResponse) {
             DS.eject(resourceName, injected[definition.idAttribute], { notify: false });
           }

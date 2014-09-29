@@ -225,13 +225,13 @@ function defineResource(definition) {
     });
 
     // Create the wrapper class for the new resource
-    def.class = DSUtils.pascalCase(definition.name);
-    eval('function ' + def.class + '() {}');
-    def[def.class] = eval(def.class);
+    def['class'] = DSUtils.pascalCase(definition.name);
+    eval('function ' + def['class'] + '() {}');
+    def[def['class']] = eval(def['class']);
 
     // Apply developer-defined methods
     if (def.methods) {
-      DSUtils.deepMixIn(def[def.class].prototype, def.methods);
+      DSUtils.deepMixIn(def[def['class']].prototype, def.methods);
     }
 
     // Prepare for computed properties
@@ -263,19 +263,19 @@ function defineResource(definition) {
         });
       });
 
-      def[def.class].prototype.DSCompute = function () {
+      def[def['class']].prototype.DSCompute = function () {
         return DS.compute(def.name, this);
       };
     }
 
-    def[def.class].prototype.DSUpdate = function () {
+    def[def['class']].prototype.DSUpdate = function () {
       var args = Array.prototype.slice.call(arguments);
       args.unshift(this[def.idAttribute]);
       args.unshift(def.name);
       return DS.update.apply(DS, args);
     };
 
-    def[def.class].prototype.DSSave = function () {
+    def[def['class']].prototype.DSSave = function () {
       var args = Array.prototype.slice.call(arguments);
       args.unshift(this[def.idAttribute]);
       args.unshift(def.name);

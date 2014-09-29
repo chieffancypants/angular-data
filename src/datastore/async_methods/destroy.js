@@ -101,7 +101,7 @@ function destroy(resourceName, id, options) {
         }
         DS.eject(resourceName, id);
         return id;
-      }).catch(function (err) {
+      })['catch'](function (err) {
         if (options.eagerEject && item) {
           DS.inject(resourceName, item);
         }
