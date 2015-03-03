@@ -523,7 +523,7 @@
   var expectedRecordTypes = {
     add: true,
     update: true,
-    delete: true
+    'delete': true
   };
 
   function diffObjectFromChangeRecords(object, changeRecords, oldValues) {
@@ -2791,7 +2791,7 @@ function create(resourceName, attrs, options) {
             return DS.createInstance(resourceName, attrs, options);
           }
         })
-        .catch(function (err) {
+        ['catch'](function (err) {
           if (options.eagerInject && options.cacheResponse) {
             DS.eject(resourceName, injected[definition.idAttribute], { notify: false });
           }
@@ -2910,7 +2910,7 @@ function destroy(resourceName, id, options) {
         }
         DS.eject(resourceName, id);
         return id;
-      }).catch(function (err) {
+      })['catch'](function (err) {
         if (options.eagerEject && item) {
           DS.inject(resourceName, item);
         }
@@ -5324,7 +5324,7 @@ function createInstance(resourceName, attrs, options) {
   var item;
 
   if (options.useClass) {
-    var Func = definition[definition.class];
+    var Func = definition[definition['class']];
     item = new Func();
   } else {
     item = {};
@@ -5562,13 +5562,13 @@ function defineResource(definition) {
     });
 
     // Create the wrapper class for the new resource
-    def.class = DSUtils.pascalCase(definition.name);
-    eval('function ' + def.class + '() {}');
-    def[def.class] = eval(def.class);
+    def['class'] = DSUtils.pascalCase(definition.name);
+    eval('function ' + def['class'] + '() {}');
+    def[def['class']] = eval(def['class']);
 
     // Apply developer-defined methods
     if (def.methods) {
-      DSUtils.deepMixIn(def[def.class].prototype, def.methods);
+      DSUtils.deepMixIn(def[def['class']].prototype, def.methods);
     }
 
     // Prepare for computed properties
@@ -5600,19 +5600,19 @@ function defineResource(definition) {
         });
       });
 
-      def[def.class].prototype.DSCompute = function () {
+      def[def['class']].prototype.DSCompute = function () {
         return DS.compute(def.name, this);
       };
     }
 
-    def[def.class].prototype.DSUpdate = function () {
+    def[def['class']].prototype.DSUpdate = function () {
       var args = Array.prototype.slice.call(arguments);
       args.unshift(this[def.idAttribute]);
       args.unshift(def.name);
       return DS.update.apply(DS, args);
     };
 
-    def[def.class].prototype.DSSave = function () {
+    def[def['class']].prototype.DSSave = function () {
       var args = Array.prototype.slice.call(arguments);
       args.unshift(this[def.idAttribute]);
       args.unshift(def.name);
@@ -6489,10 +6489,10 @@ function _inject(definition, resource, attrs, options) {
 
         if (!item) {
           if (options.useClass) {
-            if (attrs instanceof definition[definition.class]) {
+            if (attrs instanceof definition[definition['class']]) {
               item = attrs;
             } else {
-              item = new definition[definition.class]();
+              item = new definition[definition['class']]();
             }
           } else {
             item = {};
