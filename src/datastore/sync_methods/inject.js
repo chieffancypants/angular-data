@@ -93,6 +93,8 @@ function _inject(definition, resource, attrs, options) {
     for (var i = 0; i < attrs.length; i++) {
       injected.push(_inject.call(DS, definition, resource, attrs[i], options));
     }
+    // KZO: restore the meta object which contains pagination
+    injected.meta = attrs.meta;
   } else {
     // check if "idAttribute" is a computed property
     var c = definition.computed;
