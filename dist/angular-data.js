@@ -5587,9 +5587,6 @@ function defineResource(definition) {
           deps = match[1].split(',');
           def.computed[field] = deps.concat(fn);
           fn = def.computed[field];
-          if (deps.length) {
-            DS.$log.warn(errorPrefix + 'Use the computed property array syntax for compatibility with minified code!');
-          }
         }
         deps = fn.slice(0, fn.length - 1);
         angular.forEach(deps, function (val, index) {
